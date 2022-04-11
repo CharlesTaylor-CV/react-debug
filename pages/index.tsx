@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import ReactRange from '../components/ReactRange';
+import InfiniteScroll from '../components/InfiniteScroll';
 
 const Home: NextPage = () => {
   return (
@@ -9,7 +9,7 @@ const Home: NextPage = () => {
       alignItems: 'center',
       height: '100vh',
     }}>
-      <ReactRange />
+      <InfiniteScroll />
     </div>
   )
 }
