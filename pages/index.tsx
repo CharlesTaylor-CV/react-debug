@@ -18,8 +18,8 @@ const Home: NextPage = () => {
   return (
     <div style={{
       display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
+      gap: '100px',
+      marginLeft: '30vw',
       alignItems: 'center',
       height: '100vh',
     }}>

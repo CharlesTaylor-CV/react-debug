@@ -15,10 +15,11 @@ export default function InfiniteScroll(props: Props) {
   const { onScroll, scrollToIndex } = props;
   const [ length, setLength ] = useState(10);
   const ref = useRef();
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (ref.current) {
+      const list = (ref.current as any)
       window.requestAnimationFrame(() => {
-        (ref.current as any).scrollTo(scrollToIndex)
+        list.scrollTo(scrollToIndex)
         console.log('scroll to:', scrollToIndex)
       })
     }
