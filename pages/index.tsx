@@ -3,8 +3,8 @@ import {useState} from 'react';
 import InfiniteScroll from '../components/InfiniteScroll';
 
 const Home: NextPage = () => {
-  const [ current, setCurrent ] = useState(0);
-  const [ pending, setPending ] = useState(0);
+  const [ scrollTo, setScrollTo ] = useState(0);
+  const [ saved, save ] = useState(0);
   const [ visibleList, setVisibleList] = useState(true);
 
   const hideList = () => {
@@ -12,8 +12,13 @@ const Home: NextPage = () => {
   }
   const showList = () => {
     setVisibleList(true)
-    setCurrent(pending)
+    setScrollTo(saved)
   }
+
+  const button =
+    visibleList
+      ? <button onClick={hideList}>Hide</button>
+      : <button onClick={showList}>Show</button>
 
   return (
     <div style={{
@@ -23,17 +28,16 @@ const Home: NextPage = () => {
       alignItems: 'center',
       height: '100vh',
     }}>
-
-      <input type="number" onChange={(e) => setCurrent(Number(e.target.value))} />
-      { visibleList
-        ? <button onClick={hideList}>Hide</button>
-        : <button onClick={showList}>Show</button>
-      }
+      <div>
+        {button}
+        <p>{`lastScroll: ${scrollTo}`}</p>
+        <p>{`savedPosition: ${saved}`}</p>
+      </div>
       { visibleList
         ? (
           <InfiniteScroll
-            scrollToIndex={current}
-            onScroll={(s, _) => setPending(s)}
+            scrollToIndex={scrollTo}
+            onScroll={(s, _) => save(s)}
           />
         ) : null
       }
