@@ -1,7 +1,20 @@
 import type { NextPage } from 'next'
+import {useState} from 'react';
 import InfiniteScroll from '../components/InfiniteScroll';
 
 const Home: NextPage = () => {
+  const [ current, setCurrent ] = useState(0);
+  const [ pending, setPending ] = useState(0);
+  const [ visibleList, setVisibleList] = useState(true);
+
+  const hideList = () => {
+    setVisibleList(false)
+  }
+  const showList = () => {
+    setVisibleList(true)
+    setCurrent(pending)
+  }
+
   return (
     <div style={{
       display: 'flex',
@@ -10,7 +23,20 @@ const Home: NextPage = () => {
       alignItems: 'center',
       height: '100vh',
     }}>
-      <InfiniteScroll />
+
+      <input type="number" onChange={(e) => setCurrent(Number(e.target.value))} />
+      { visibleList
+        ? <button onClick={hideList}>Hide</button>
+        : <button onClick={showList}>Show</button>
+      }
+      { visibleList
+        ? (
+          <InfiniteScroll
+            scrollToIndex={current}
+            onScroll={(s, _) => setPending(s)}
+          />
+        ) : null
+      }
     </div>
   )
 }
