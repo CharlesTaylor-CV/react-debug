@@ -4,6 +4,7 @@ import ReactList from 'react-list';
 type Props = {
   onScroll: (start: number, end: number) => void
   scrollToIndex: number,
+  changeToScroll?: string,
 }
 
 InfiniteScroll.defaultProps = {
@@ -12,7 +13,7 @@ InfiniteScroll.defaultProps = {
 }
 
 export default function InfiniteScroll(props: Props) {
-  const { onScroll, scrollToIndex } = props;
+  const { onScroll, scrollToIndex, changeToScroll } = props;
   const [ length, setLength ] = useState(10);
   const ref = useRef();
   useEffect(() => {
@@ -23,7 +24,7 @@ export default function InfiniteScroll(props: Props) {
         console.log('scroll to:', scrollToIndex)
       })
     }
-  }, [scrollToIndex]);
+  }, [changeToScroll]);
   return (
     <div
       style={{

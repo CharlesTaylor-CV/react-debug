@@ -1,24 +1,39 @@
 import type { NextPage } from 'next'
 import {useState} from 'react';
 import InfiniteScroll from '../components/InfiniteScroll';
+import { v4 as uuid} from 'uuid';
+
 
 const Home: NextPage = () => {
-  const [ scrollTo, setScrollTo ] = useState(0);
-  const [ saved, save ] = useState(0);
+  const [ scrollActionIndex, setScrollActionIndex ] = useState(0);
+  const [ scrollActionId, setScrollActionId] = useState('');
+  const [ savedScrollIndex, saveScrollIndex ] = useState(0);
   const [ visibleList, setVisibleList] = useState(true);
+
+  const scrollTo = (index: number) => {
+    setScrollActionIndex(index)
+    setScrollActionId(uuid())
+    saveScrollIndex(index)
+  }
 
   const hideList = () => {
     setVisibleList(false)
   }
+
   const showList = () => {
     setVisibleList(true)
-    setScrollTo(saved)
+    scrollTo(savedScrollIndex)
   }
 
-  const button =
+  const toggleListButton =
     visibleList
-      ? <button onClick={hideList}>Hide</button>
-      : <button onClick={showList}>Show</button>
+      ? <button onClick={hideList}>Hide List</button>
+      : <button onClick={showList}>Show List</button>
+
+  const scrollToTopButton =
+    <button onClick={() => scrollTo(0)}>
+      Scroll To Top
+    </button>
 
   return (
     <div style={{
@@ -29,15 +44,18 @@ const Home: NextPage = () => {
       height: '100vh',
     }}>
       <div>
-        {button}
-        <p>{`lastScroll: ${scrollTo}`}</p>
-        <p>{`savedPosition: ${saved}`}</p>
+        {toggleListButton}
+        {scrollToTopButton}
+        <p>{`scrollActionIndex: ${scrollActionIndex}`}</p>
+        <p>{`scrollActionId: ${scrollActionId}`}</p>
+        <p>{`savedScrollIndex: ${savedScrollIndex}`}</p>
       </div>
       { visibleList
         ? (
           <InfiniteScroll
-            scrollToIndex={scrollTo}
-            onScroll={(s, _) => save(s)}
+            scrollToIndex={scrollActionIndex}
+            changeToScroll={scrollActionId}
+            onScroll={(s, _) => saveScrollIndex(s)}
           />
         ) : null
       }
