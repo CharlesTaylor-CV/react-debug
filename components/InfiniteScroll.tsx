@@ -35,8 +35,8 @@ export default function InfiniteScroll(props: Props) {
       onWheel={() => {
         if (ref.current) {
           const el = ref.current as any
-          const range = el.getVisibleRange()
-          onScroll(range[0], range[1])
+          const [start, end] = el.getVisibleRange()
+          onScroll(start, end)
         }
       }}
     >
